@@ -15,9 +15,9 @@ body{
     height: 100px;
     width:100px;
     background-color: greenyellow;
-    border-radius: 5px;
     cursor:pointer;
     position: fixed;
+    border-radius:50px;
 }
 
 #ground{

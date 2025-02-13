@@ -48,50 +48,71 @@ function objectStop(event){
 
 
 let X=card.offsetLeft,Y=card.offsetLeft;
+let initVelocity=0,initVelocityX=0,initVelocityY=-20;
+
+let acceleration=0,accelerationX=0,accelerationY=0;
 let velocity=0,velocityX=0,velocityY=0;
-let acceleration=0,accelerationX=0,accelerationY=-999;
+
+
+X+=100;
+Y+=600;
+let mass=10;
+let impulse=mass*100;
+
+
+velocityY=initVelocityY;
+velocityX=initVelocityX;
 
 
 function gravityCalculation(time){
-    let gravity=1000;
-    
-    
-    let heightY=velocityY*time+1/2*gravity*Math.pow(time,2);
-    Y+=heightY;
-    // console.log(heightY)
+    let gravity=0.5;
+    velocityY+=gravity;
 }
 
 
-function objectPosition(time){
-    X+=velocityX*time+1/2*accelerationX*Math.pow(time,2);
-    Y+=velocityX*time+1/2*accelerationY*Math.pow(time,2);
+function objectPosition(){
+    velocityY+=accelerationY;
+    velocityX+=accelerationX;
 }
 
 console.log();
-let base=500;
+let base=700;
 
 function physics(){
-    let newTime=new Date();
-    let runTime=newTime.getTime()-startTime;
-    runTime/=1000;
 
     ground.style.top=base+'px';
-
     
+    X+=velocityX;
+    Y+=velocityY;
     card.style.top=Y+'px';
     card.style.left=X+'px';
 
+   
+    //debug
+    
+    
     if(card.offsetTop+card.offsetHeight>=base){
         
-        card.style.top=(base-card.offsetHeight)+'px';
+        
+        // if(velocityY.toFixed(0)==0){
+        //     velocityY+=-0.5;
+        //     console.log("1");
+        // }else{
+        //     velocityY=((-0.9)*velocityY);
+        //     console.log("2");
+        // }
+        velocityY=velocityY*(-1);
+        
+    }
 
-    }
-    gravityCalculation(runTime);
-    objectPosition(runTime);
-    
+   
+    gravityCalculation();
+    objectPosition();
+   
 }
+
 let runPhysics=setInterval(()=>{
-    if(card.offsetTop+card.offsetHeight<=base){
-        physics();
-    }
+    physics();
+    console.log(velocityY)
+    
 },1);
