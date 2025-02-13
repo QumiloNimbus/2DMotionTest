@@ -12,10 +12,16 @@ body{
 }
 
 #card{
-    height: 400px;
-    width:400px;
+    height: 100px;
+    width:100px;
     background-color: greenyellow;
     border-radius: 5px;
     cursor:pointer;
     position: fixed;
+}
+
+#ground{
+    background-color: black;
+    position: relative;
+    
 }

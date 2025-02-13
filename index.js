@@ -1,5 +1,7 @@
+//script to make the div draggable
 let startX=0,startY=0,newX=0,newY=0;
 const card=document.getElementById("card");
+const ground=document.getElementById("ground");
 let cardOffsetTop=card.offsetTop,cardOffsetLeft=card.offsetLeft;
 
 
@@ -10,7 +12,7 @@ function objectClick(event){
     startY=event.clientY;
 
     
-
+    clearInterval(runPhysics)
     document.addEventListener('mousemove',objectMove)
     document.addEventListener('mouseup',objectStop)
 }
@@ -26,49 +28,49 @@ function objectMove(event){
     let cardLeft=cardOffsetLeft+displacementX;
     card.style.top=cardTop+"px";
     card.style.left=cardLeft+"px";
-    console.log(newX,newY);
-    console.log(card.offsetTop)
+    // console.log(newX,newY);
+    // console.log(card.offsetTop)
 }
 
 function objectStop(event){
     cardOffsetLeft=card.offsetLeft;
     cardOffsetTop=card.offsetTop;
     document.removeEventListener('mousemove',objectMove)
+    setInterval(physics,1)
     
 }
 
 
-// let startX=0,startY=0,newX=0,newY=0;
-// const card=document.getElementById("card");
-// let cardOffsetTop=card.offsetTop,cardOffsetLeft=card.offsetLeft;
+//physics here
+
+let time=new Date();
+let startTime=time.getTime();
+let X=card.offsetLeft,Y=card.offsetTop;
+let velocity=0,velocityX=0,velocityY=0;
 
 
-// card.addEventListener('mousedown',objectClick);
-
-// function objectClick(event){
-//     startX=event.clientX;
-//     startY=event.clientY;
-
+function gravityCalculation(){
+    let gravity=1000;
     
+    newTime=new Date();
+    let runTime=newTime.getTime()-startTime;
+    runTime/=1000;
+    let heightY=velocityY*runTime+1/2*gravity*Math.pow(runTime,2);
+    card.style.top=(Y+heightY)+'px';
+    // console.log(heightY)
+}
 
-//     document.addEventListener('mousemove',objectMove)
-//     document.addEventListener('mouseup',objectStop)
-// }
 
-// function objectMove(event){
-//     newX=event.clientX-startX;
-//     newY=event.clientY-startY;
+console.log();
+function physics(){
+    let base=500;
+    ground.style.top=base+'px';
+    gravityCalculation();
+    if(card.offsetTop+card.offsetHeight>=base){
+        
+        card.style.top=(base-card.offsetHeight)+'px';
 
-//     startX=event.clientX;
-//     startY=event.clientY;
-
-//     card.style.top=(card.offsetTop+newY)+'px';
-//     card.style.left=(card.offsetLeft+newX)+'px';
-// }
-
-// function objectStop(event){
-//     cardOffsetLeft=card.offsetLeft;
-//     cardOffsetTop=card.offsetTop;
-//     document.removeEventListener('mousemove',objectMove)
+    }
     
-// }
+}
+let runPhysics=setInterval(physics,1);
