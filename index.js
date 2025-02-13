@@ -11,13 +11,13 @@ const ground=document.getElementById("ground");
 
 
 let X=card.offsetLeft,Y=card.offsetLeft;
-let initVelocity=0,initVelocityX=0,initVelocityY=-50;
-let gravity=2;
+let initVelocity=0,initVelocityX=0,initVelocityY=-30;
+let gravity=0.5;
 
 let acceleration=0,accelerationX=0,accelerationY=0;
 let velocity=0,velocityX=0,velocityY=0;
 
-let base=700;
+let base=1000;
 
 X+=100;
 Y+=base-card.offsetHeight;
@@ -40,42 +40,56 @@ function objectPosition(){
     velocityX+=accelerationX;
 }
 
-console.log();
 
+
+let bounceFactor=0.7;
+let thresholdVelocity=Math.sqrt(2 * gravity);
+let i=0;
+console.log(thresholdVelocity)
 
 function physics(){
 
     ground.style.top=base+'px';
-    console.log(velocityX,velocityY)
-    velocityY.toFixed(2);
-    velocityY.toFixed(2);
+    
+    
     X+=velocityX;
     Y+=velocityY;
-    
-
  
     if (Y + card.offsetHeight >base) { 
         Y=base - card.offsetHeight;
-        if (Math.abs(velocityY) < 1) {  // Stop small velocity changes
-            
-            velocityY = 0;
-            gravity=0;
+        velocityY = -velocityY*Math.pow(bounceFactor,i);
+        i+=1;
+        gravity=0;
+        console.log(1)
+        if(velocityY===0 || velocityY===-0 || Math.abs(velocityY)<=1){
+            velocityY=0;
+        }
+    } 
+    else if(Y + card.offsetHeight ===base){
+        i+=1;
+        velocityY=-velocityY*Math.pow(bounceFactor,i);
+        
+        if(velocityY===0 || velocityY===-0 || Math.abs(velocityY)<=1){
+            velocityY=0;
         }
         
-    } else if(Y + card.offsetHeight ===base){
-        velocityY = -velocityY*(0.5); 
+        gravity=1;
+
+        console.log(2)
+    }
+    else{
+        gravity=1;
         
-    }else{
-        gravity=2;
         gravityCalculation();
         objectPosition();
+
+        console.log(3)
     }
-    
-//    console.log(Y);
-//    console.log(velocityY);
+
+    console.log(velocityY)
 
     
-
+    
     card.style.top=Y+'px';
     card.style.left=X+'px';
    
@@ -108,7 +122,7 @@ let onCard=false;
 card.addEventListener('mousedown',objectClick);
 
 function objectClick(event){
-    stopInterval();
+    
     startX=event.clientX;
     startY=event.clientY;
 
@@ -119,6 +133,11 @@ function objectClick(event){
     document.addEventListener('mouseup',objectStop)
     
     onCard=true;
+
+    // velocityY=0;
+    // velocityX=0;
+    i=1;
+    stopInterval();
 }
 
 function objectMove(event){
@@ -128,16 +147,13 @@ function objectMove(event){
     let displacementX=newX-startX;
     let displacementY=newY-startY;
 
-    // Y+=displacementY;
-    // X+=displacementX;
+
     Y=cardOffsetTop+displacementY;
     X=cardOffsetLeft+displacementX;
     
     card.style.top=Y+"px";
     card.style.left=X+"px";
-    // console.log("new"+(newX-newY));
-    console.log(displacementX,displacementY);
-    // console.log("X-Y:"+(X-Y));
+
 }
 
 function objectStop(event){
