@@ -19,7 +19,7 @@ let velocity=0,velocityX=0,velocityY=0;
 
 let base=1000;
 
-X+=100;
+X+=2000;
 Y+=base-card.offsetHeight;
 let mass=10;
 let impulse=mass*100;
@@ -45,7 +45,8 @@ function objectPosition(){
 let bounceFactor=0.7;
 let thresholdVelocity=Math.sqrt(2 * gravity);
 let i=0;
-console.log(thresholdVelocity)
+
+
 
 function physics(){
 
@@ -60,7 +61,7 @@ function physics(){
         velocityY = -velocityY*Math.pow(bounceFactor,i);
         i+=1;
         gravity=0;
-        console.log(1)
+        // console.log(1)
         if(velocityY===0 || velocityY===-0 || Math.abs(velocityY)<=1){
             velocityY=0;
         }
@@ -75,7 +76,7 @@ function physics(){
         
         gravity=1;
 
-        console.log(2)
+        // console.log(2)
     }
     else{
         gravity=1;
@@ -83,18 +84,17 @@ function physics(){
         gravityCalculation();
         objectPosition();
 
-        console.log(3)
+        // console.log(3)
     }
 
-    console.log(velocityY)
+    
 
     
-    
+   
     card.style.top=Y+'px';
     card.style.left=X+'px';
    
 }
-
 
 
 let runPhysics;
@@ -168,7 +168,23 @@ function objectStop(event){
 
 
 
-
+document.addEventListener("keydown", function(event) {
+    switch (event.key){
+        case "w":
+            velocityY+=-20;
+            break;
+        case "s":
+            velocityY+=20;
+            break;
+        case "a":
+            velocityX=-10;
+            break;
+        case "d":
+            velocityX=10;
+            break;
+        
+    }   // Displays the physical key code
+});
 
 
 startInterval();
