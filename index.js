@@ -1,7 +1,5 @@
 //script to make the div draggable
 // let startX=0,startY=0,newX=0,newY=0;
-let time=new Date();
-let startTime=time.getTime();
 
 const card=document.getElementById("card");
 const ground=document.getElementById("ground");
@@ -48,7 +46,8 @@ function objectStop(event){
 
 
 let X=card.offsetLeft,Y=card.offsetLeft;
-let initVelocity=0,initVelocityX=0,initVelocityY=-20;
+let initVelocity=0,initVelocityX=2,initVelocityY=-50;
+let gravity=2;
 
 let acceleration=0,accelerationX=0,accelerationY=0;
 let velocity=0,velocityX=0,velocityY=0;
@@ -65,7 +64,7 @@ velocityX=initVelocityX;
 
 
 function gravityCalculation(time){
-    let gravity=0.5;
+    
     velocityY+=gravity;
 }
 
@@ -91,20 +90,22 @@ function physics(){
     //debug
     
     
-    if(card.offsetTop+card.offsetHeight>=base){
+    // if(card.offsetTop+card.offsetHeight>=base){
         
+    //     if(Math.abs(velocityY.toFixed(0))===0){
+    //         velocityY=0;
+    //     }
+    //     velocityY=velocityY-velocityY*2;
         
-        // if(velocityY.toFixed(0)==0){
-        //     velocityY+=-0.5;
-        //     console.log("1");
-        // }else{
-        //     velocityY=((-0.9)*velocityY);
-        //     console.log("2");
-        // }
-        velocityY=velocityY*(-1);
-        
+    // }
+    if (card.offsetTop + card.offsetHeight >= base) { 
+        if (Math.abs(velocityY) < 1) {  // Stop small velocity changes
+            velocityY = 0;
+            gravity=0;
+        } else {
+            velocityY = -velocityY * 0.9;  // Reduce velocity after bounce
+        }
     }
-
    
     gravityCalculation();
     objectPosition();
@@ -115,4 +116,4 @@ let runPhysics=setInterval(()=>{
     physics();
     console.log(velocityY)
     
-},1);
+},10);
