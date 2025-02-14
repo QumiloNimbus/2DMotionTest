@@ -17,7 +17,7 @@ let gravity=0.5;
 let acceleration=0,accelerationX=0,accelerationY=0;
 let velocity=0,velocityX=0,velocityY=0;
 
-let base=1000;
+let base=2000;
 
 X+=2000;
 Y+=base-card.offsetHeight;
@@ -171,10 +171,12 @@ function objectStop(event){
 document.addEventListener("keydown", function(event) {
     switch (event.key){
         case "w":
-            velocityY+=-20;
+            i=1;
+            velocityY+=-30;
+            
             break;
         case "s":
-            velocityY+=20;
+            velocityY+=30;
             break;
         case "a":
             velocityX=-10;
@@ -186,5 +188,23 @@ document.addEventListener("keydown", function(event) {
     }   // Displays the physical key code
 });
 
+document.addEventListener("keyup", function(event) {
+    switch (event.key){
+        case "w":
+            i=1;
+            velocityY+=0;
+            break;
+        case "s":
+            velocityY+=0;
+            break;
+        case "a":
+            velocityX=0;
+            break;
+        case "d":
+            velocityX=0;
+            break;
+        
+    }   // Displays the physical key code
+});
 
 startInterval();
